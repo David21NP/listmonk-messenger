@@ -13,7 +13,7 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} make build
+RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH:-amd64} make build
 
 # Use a lightweight Alpine image as the base image for the final container
 FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:latest
@@ -25,10 +25,11 @@ WORKDIR /app
 COPY --from=builder /app/listmonk-messenger.bin .
 
 # Copy the config.toml file (adjust the path if necessary)
-#COPY config.toml .
+COPY startup.sh .
+RUN chmod +x startup.sh
 
 # Expose the port that the application listens on (adjust if necessary)
 EXPOSE 8082
 
 # Run the application
-CMD ["./listmonk-messenger.bin", "--config", "config.toml", "--msgr", "pinpoint", "--msgr", "ses"]
+ENTRYPOINT ["./startup.sh"]
