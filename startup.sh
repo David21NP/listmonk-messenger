@@ -10,7 +10,7 @@ read_timeout = "${LISTMONK_server__read_timeout:-5s}"
 write_timeout = "${LISTMONK_server__write_timeout:-5s}"
 
 [messenger.pinpoint]
-config = "${LISTMONK_messenger_pinpoint__config}"
+config = "${LISTMONK_messenger_pinpoint__config:-{\}}"
 
 # Add other configuration sections as needed for listmonk-messenger
 # This should match the structure expected by your listmonk-messenger application
@@ -21,4 +21,4 @@ echo "Generated config.toml:"
 cat config.toml
 
 # Start listmonk-messenger
-exec ./listmonk-messenger --config config.toml --msgr pinpoint
+exec ./listmonk-messenger.bin --config config.toml --msgr pinpoint
