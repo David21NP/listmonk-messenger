@@ -85,6 +85,8 @@ func loadMessengers(msgrs []string, app *App) {
 			err  error
 		)
 		switch m {
+		case "end_user_messaging":
+			msgr, err = messenger.NewEndUserMessaging([]byte(cfg.Config), app.logger)
 		case "pinpoint":
 			msgr, err = messenger.NewPinpoint([]byte(cfg.Config), app.logger)
 		case "ses":
