@@ -1,8 +1,6 @@
 module github.com/joeirimpan/listmonk-messenger
 
-go 1.22
-
-toolchain go1.24.4
+go 1.21
 
 require (
 	github.com/aws/aws-sdk-go v1.51.25

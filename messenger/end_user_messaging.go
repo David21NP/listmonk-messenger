@@ -39,11 +39,20 @@ func (p endUserMessagingMessenger) Push(msg Message) error {
 	}
 
 	body := string(msg.Body)
-	payload := &pinpointsmsvoicev2.SendTextMessageInput{
-		DestinationPhoneNumber: &phone,
-		MessageBody:            &body,
-		OriginationIdentity:    &p.cfg.PoolID, // Phone number or pool ID
-		MessageType:            &p.cfg.MessageType,
+
+	var payload *pinpointsmsvoicev2.SendTextMessageInput
+	if p.cfg.PoolID == "" || p.cfg.MessageType == "" {
+		payload = &pinpointsmsvoicev2.SendTextMessageInput{
+			DestinationPhoneNumber: &phone,
+			MessageBody:            &body,
+		}
+	} else {
+		payload = &pinpointsmsvoicev2.SendTextMessageInput{
+			DestinationPhoneNumber: &phone,
+			MessageBody:            &body,
+			OriginationIdentity:    &p.cfg.PoolID, // Phone number or pool ID
+			MessageType:            &p.cfg.MessageType,
+		}
 	}
 
 	out, err := p.client.SendTextMessage(payload)
