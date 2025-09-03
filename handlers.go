@@ -168,3 +168,7 @@ func sendErrorResponse(w http.ResponseWriter, message string, code int, data int
 	out, _ := json.Marshal(resp)
 	w.Write(out)
 }
+
+func (app *App) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "status: available")
+}

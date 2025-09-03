@@ -126,6 +126,7 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Post("/webhook/{provider}", wrap(app, handlePostback))
+	r.Get("/", app.healthcheckHandler)
 
 	// HTTP Server.
 	srv := &http.Server{
